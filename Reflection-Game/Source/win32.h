@@ -1,4 +1,12 @@
 #pragma once
 #include <windows.h>
 
-WNDCLASSA CreateWindowClass(char* windowTitle, WNDPROC windowProcedure);
+#define InstanceHandle HINSTANCE
+#define WindowClass WNDCLASSA
+#define WindowHandle HWND
+#define DeviceContext HDC
+#define Message MSG
+#define WindowsProcedure WNDPROC
+
+WindowClass CreateWindowClass(const char* windowTitle, const WindowsProcedure windowProcedure);
+WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPSTR windowTitle);

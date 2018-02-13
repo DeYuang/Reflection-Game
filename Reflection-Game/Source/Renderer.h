@@ -1,7 +1,8 @@
 #pragma once
-void GLUpdate();
 
-inline bool WaitForVSync() {
+inline bool WaitForVSync( void ) {
 
 	return false;
 }
+
+void GLUpdate();

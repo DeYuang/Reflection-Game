@@ -1,28 +1,31 @@
 #include <windows.h>
 
-
 #include "win32.h"
 #include "main.h"
 #include "renderer.h"
 #include "game.h"
 #include "logging.h"
 
-LRESULT CALLBACK MainWindowProcecure(HWND window, UINT message,
+LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 	WPARAM wideParameter, LPARAM longParameter) {
 
 	switch (message) {
 
+		case WM_QUIT: case WM_CLOSE: {
+			gameIsRunning = false;
+		} return 0;
+
 		case WM_PAINT: {
 
 			PAINTSTRUCT paint;
-			HDC deviceContext = BeginPaint(window, &paint);
+			//DeviceContext deviceContext = BeginPaint(window, &paint);
 			RECT rect;
 			GetClientRect(window, &rect);
-			UINT flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
-			DrawText(deviceContext, (LPCWSTR)"Hello World!", -1, &rect, flags);
-			EndPaint(window, &paint);
+			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
+			DrawTextA(deviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
+			//EndPaint(window, &paint);
 
-		} break;
+		} return 0;
 
 		default:
 			return DefWindowProc(window, message, wideParameter, longParameter);
@@ -31,45 +34,38 @@ LRESULT CALLBACK MainWindowProcecure(HWND window, UINT message,
 	return 0;
 }
 
-int WINAPI WinMain(HINSTANCE instance,
-		HINSTANCE previous,
-		LPSTR arguments,
-		int code) {
+int WINAPI WinMain(const InstanceHandle instance,
+		const InstanceHandle previous,
+		const LPSTR arguments,
+		const int code) {
 
 	// Window and engine init
 	instanceHandle = instance;
-	WNDCLASSA windowClass = CreateWindowClass(gameName, MainWindowProcecure);
+	WindowClass windowClass = CreateWindowClass(gameName, MainWindowProcecure);
 
 	if (RegisterClassA(&windowClass)) {
-		HWND gameWindow =
-			CreateWindowExA(0,
-				windowClass.lpszClassName, (LPSTR)gameName,
-				WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-				CW_USEDEFAULT, CW_USEDEFAULT,
-				CW_USEDEFAULT, CW_USEDEFAULT,
-				NULL, NULL, instance, NULL);
+		WindowHandle gameWindow = OpenNewWindow(gameNameClass, (LPSTR)gameName);
 
 		deviceContext = GetDC(gameWindow);
-		LogMessageBox("Engine initalized!");
+		LogConsole("Engine Initialized!\r\n");
+		//LogMessageBox("Engine initalized!");
 
 		// Message que and game loop
-		while (isRunning) {
-			MSG message;
+		while (gameIsRunning) {
+			Message message;
 			while (PeekMessage(&message, 0, 0, 0, PM_REMOVE)) {
-				if (message.message == WM_QUIT || message.message == WM_CLOSE) {
-					isRunning = false;
+				if (message.message == WM_QUIT || message.message == WM_CLOSE)
 					return 0;
-				}
 
 				TranslateMessage(&message);
 				DispatchMessage(&message);
 			}
 
-			HeartbeatLoop();
+			//Heartbeat();
 			Update();
 
 			while (WaitForVSync())
-				Heartbeat();
+				SingleHeartbeat();
 
 			GLUpdate();
 		}

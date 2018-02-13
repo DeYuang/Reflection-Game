@@ -1,3 +1,3 @@
 #pragma once
-void LogConsole(char* message);
-void LogMessageBox(char* message);
+void LogConsole(const char* message);
+void LogMessageBox(const char* message);

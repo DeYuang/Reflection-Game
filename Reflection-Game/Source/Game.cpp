@@ -1,17 +1,18 @@
 #include "main.h"
 #include "mathbindings.h"
-#include "game.h"
 
-void Heartbeat( void ) {
+static enum BeatMode beatMode = (BeatMode)3;
+
+void SingleHeartbeat( void ) {
 
 	cpuFrameCount++;
 	// TODO: Poll keyboard
 	// TODO: HB Delta Time
 }
 
-void HeartbeatLoop ( void ) {
+void Heartbeat ( void ) {
 
-	uint8 heartbeats = (uint8)beatMode;
+	uint8 heartbeats = 3;// (uint8)beatMode;
 	while (heartbeats --> 0)
 		Heartbeat();
 }

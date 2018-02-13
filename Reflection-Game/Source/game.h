@@ -1,12 +1,12 @@
 #pragma once
-enum BeatMode : int {
+#include "mathbindings.h"
+
+const enum BeatMode : uint8 {
 	undefined = 0, singleBeat, doubleBeat, tripleBeat, quadrupleBeat,
 	pentupleBeat, sextupleBeat, septupleBeat, octupleBeat, nontupleBeat,
 	decupleBeat
 };
 
-enum BeatMode beatMode = tripleBeat;
-
+void SingleHeartbeat();
 void Heartbeat();
-void HeartbeatLoop();
 void Update();

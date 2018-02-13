@@ -1,12 +1,14 @@
 #pragma once
 #include <windows.h>
 
-static char* gameName = "Reflection Game";
-static LPCSTR gameNameClass = (LPCSTR)"Reflection Game Class";
+#include "win32.h"
 
-static bool isRunning = true;
-static HDC	deviceContext;
-static HINSTANCE instanceHandle;
+static const char* gameName = "Reflection Game";
+static const LPSTR gameNameClass = (LPSTR)"Reflection Game Class";
+
+static bool gameIsRunning = true;
+static DeviceContext deviceContext;
+static InstanceHandle instanceHandle;
 
 static int cpuFrameCount;
 static int frameCount;

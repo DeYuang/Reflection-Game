@@ -2,13 +2,23 @@
 
 #include "main.h"
 
-WNDCLASSA CreateWindowClass(char* windowTitle, WNDPROC windowProcedure) {
+WindowClass CreateWindowClass(const char* windowTitle, const WindowsProcedure windowProcedure) {
 
-	WNDCLASSA windowClass = {};
+	WindowClass windowClass = {};
 	windowClass.hInstance = instanceHandle;
 	windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	windowClass.lpfnWndProc = windowProcedure;
-	windowClass.lpszClassName = windowTitle;
+	windowClass.lpszClassName = (LPCSTR)windowTitle;
 
 	return windowClass;
+}
+
+WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPSTR windowTitle) {
+
+	return CreateWindowExA(0,
+		windowClass, windowTitle,
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		NULL, NULL, instanceHandle, NULL);
 }
