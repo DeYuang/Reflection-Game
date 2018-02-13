@@ -20,12 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\win32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\game.h" />
+    <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Logging.h" />
+    <ClInclude Include="Source\Main.h" />
+    <ClInclude Include="Source\MathBindings.h" />
     <ClInclude Include="Source\Renderer.h" />
+    <ClInclude Include="Source\win32.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

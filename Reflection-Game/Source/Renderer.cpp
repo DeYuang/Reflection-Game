@@ -1,3 +1,3 @@
-void GLUpdate() {
+void GLUpdate( void ) {
 
 }

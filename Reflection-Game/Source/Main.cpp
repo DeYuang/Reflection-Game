@@ -1,14 +1,11 @@
 #include <windows.h>
-#include <stdint.h>
 
+
+#include "win32.h"
+#include "main.h"
 #include "renderer.h"
 #include "game.h"
-
-#define uint8 uint8_t
-
-static bool isRunning = true;
-static int cpuFrameCount;
-static int frameCount;
+#include "logging.h"
 
 LRESULT CALLBACK MainWindowProcecure(HWND window, UINT message,
 	WPARAM wideParameter, LPARAM longParameter) {
@@ -40,19 +37,20 @@ int WINAPI WinMain(HINSTANCE instance,
 		int code) {
 
 	// Window and engine init
-	WNDCLASS windowClass= {};
-	windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	windowClass.lpfnWndProc = MainWindowProcecure;
-	windowClass.hInstance = instance;
-	windowClass.lpszClassName = (LPCWSTR)"Reflection Game";
-	if (RegisterClass(&windowClass)) {
+	instanceHandle = instance;
+	WNDCLASSA windowClass = CreateWindowClass(gameName, MainWindowProcecure);
+
+	if (RegisterClassA(&windowClass)) {
 		HWND gameWindow =
-			CreateWindowEx(0,
-				windowClass.lpszClassName, (LPWSTR)"Reflection Game",
+			CreateWindowExA(0,
+				windowClass.lpszClassName, (LPSTR)gameName,
 				WS_OVERLAPPEDWINDOW | WS_VISIBLE,
 				CW_USEDEFAULT, CW_USEDEFAULT,
 				CW_USEDEFAULT, CW_USEDEFAULT,
 				NULL, NULL, instance, NULL);
+
+		deviceContext = GetDC(gameWindow);
+		LogMessageBox("Engine initalized!");
 
 		// Message que and game loop
 		while (isRunning) {
@@ -67,20 +65,12 @@ int WINAPI WinMain(HINSTANCE instance,
 				DispatchMessage(&message);
 			}
 
-			uint8 heartbeats = (uint8)beatMode;
-			while (heartbeats-- > 0) {
-				cpuFrameCount++;
-				// TODO: Poll keyboard
-				// TODO: HB Delta Time
-				Heartbeat();
-			}
-
-			frameCount++;
-			// TODO: Poll keyboard
-			// TODO: Update Delta Time
+			HeartbeatLoop();
 			Update();
 
-			// TODO: Wait for VSync
+			while (WaitForVSync())
+				Heartbeat();
+
 			GLUpdate();
 		}
 	}

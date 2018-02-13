@@ -8,4 +8,5 @@ enum BeatMode : int {
 enum BeatMode beatMode = tripleBeat;
 
 void Heartbeat();
+void HeartbeatLoop();
 void Update();
