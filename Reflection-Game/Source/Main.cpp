@@ -1,17 +1,19 @@
 #include <windows.h>
+#include <stdint.h>
 
+#include "renderer.h"
 #include "game.h"
 
-static bool isRunning = true;
+#define uint8 uint8_t
 
-LRESULT CALLBACK WinProc(HWND window, UINT message,
+static bool isRunning = true;
+static int cpuFrameCount;
+static int frameCount;
+
+LRESULT CALLBACK MainWindowProcecure(HWND window, UINT message,
 	WPARAM wideParameter, LPARAM longParameter) {
 
 	switch (message) {
-
-		case WM_CLOSE:	{
-			isRunning = false;
-		} break;
 
 		case WM_PAINT: {
 
@@ -40,7 +42,7 @@ int WINAPI WinMain(HINSTANCE instance,
 	// Window and engine init
 	WNDCLASS windowClass= {};
 	windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	windowClass.lpfnWndProc = WinProc;
+	windowClass.lpfnWndProc = MainWindowProcecure;
 	windowClass.hInstance = instance;
 	windowClass.lpszClassName = (LPCWSTR)"Reflection Game";
 	if (RegisterClass(&windowClass)) {
@@ -56,20 +58,30 @@ int WINAPI WinMain(HINSTANCE instance,
 		while (isRunning) {
 			MSG message;
 			while (PeekMessage(&message, 0, 0, 0, PM_REMOVE)) {
-				if (message.message == WM_QUIT) {
+				if (message.message == WM_QUIT || message.message == WM_CLOSE) {
 					isRunning = false;
-					break;
+					return 0;
 				}
 
 				TranslateMessage(&message);
 				DispatchMessage(&message);
 			}
 
+			uint8 heartbeats = (uint8)beatMode;
+			while (heartbeats-- > 0) {
+				cpuFrameCount++;
+				// TODO: Poll keyboard
+				// TODO: HB Delta Time
+				Heartbeat();
+			}
+
+			frameCount++;
 			// TODO: Poll keyboard
-			// TODO: HB Delta Time
-			Heartbeat();
 			// TODO: Update Delta Time
 			Update();
+
+			// TODO: Wait for VSync
+			GLUpdate();
 		}
 	}
 
