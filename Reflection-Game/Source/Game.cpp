@@ -1,0 +1,7 @@
+void Heartbeat() {
+
+}
+
+void Update() {
+
+}
