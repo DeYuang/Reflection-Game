@@ -3,8 +3,6 @@
 #include "game.h"
 #include "logging.h"
 
-static enum BeatMode beatMode = BeatMode::tripleBeat;
-
 void SingleHeartbeat( void ) {
 
 	cpuFrameCount++;
@@ -26,5 +24,4 @@ void Update( void ) {
 	// TODO: Update Delta Time
 	//LARGE_INTEGER LastCounter;
 	//QueryPerformanceCounter(&LastCounter);
-
 }

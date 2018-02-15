@@ -11,27 +11,29 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 
 	switch (message) {
 
-		case WM_QUIT: case WM_CLOSE: {
+	case WM_QUIT: case WM_CLOSE: case WM_DESTROY: {
+
 			gameIsRunning = false;
 		} return 0;
 
 		case WM_PAINT: {
 
-			PAINTSTRUCT paint;
+			/*PAINTSTRUCT paint;
 			DeviceContext deviceContext = BeginPaint(window, &paint);
+
 			RECT rect;
 			GetClientRect(window, &rect);
+
 			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
 			DrawTextA(deviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
-			EndPaint(window, &paint);
+			EndPaint(window, &paint);*/
 
-		} return 0;
+			GLUpdate();
+		}
 
 		default:
 			return DefWindowProc(window, message, wideParameter, longParameter);
 	}
-
-	return 0;
 }
 
 int WINAPI WinMain(const InstanceHandle instance,
@@ -44,19 +46,18 @@ int WINAPI WinMain(const InstanceHandle instance,
 	WindowClass windowClass = CreateWindowClass(gameNameClass, MainWindowProcecure);
 
 	if (RegisterClassA(&windowClass)) {
-		WindowHandle gameWindow = OpenNewWindow(gameNameClass, (LPSTR)gameName);
+		WindowHandle gameWindow = OpenNewWindow(gameNameClass, (LPCSTR)gameName, &screenResolution);
 
 		deviceContext = GetDC(gameWindow);
 		GLInit();
 
 		LogConsole("Engine Initialized!\r\n");
-		//LogMessageBox("Engine initalized!");
 
 		// Message que and game loop
 		while (gameIsRunning) {
 			Message message;
 			while (PeekMessage(&message, 0, 0, 0, PM_REMOVE)) {
-				if (message.message == WM_QUIT || message.message == WM_CLOSE)
+				if (message.message == WM_QUIT || message.message == WM_CLOSE || message.message == WM_DESTROY)
 					return 0;
 
 				TranslateMessage(&message);
@@ -75,4 +76,3 @@ int WINAPI WinMain(const InstanceHandle instance,
 
 	return 0;
 }
-

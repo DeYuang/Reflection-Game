@@ -7,6 +7,8 @@ const enum BeatMode : uint8 {
 	decupleBeat
 };
 
+static enum BeatMode beatMode = BeatMode::tripleBeat;
+
 void SingleHeartbeat();
 void Heartbeat();
 void Update();

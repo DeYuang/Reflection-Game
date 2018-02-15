@@ -1,6 +1,7 @@
 #include <windows.h>
 
 #include "main.h"
+#include "renderer.h"
 
 WindowClass CreateWindowClass(const LPCSTR windowClassName, const WindowsProcedure windowProcedure) {
 
@@ -13,12 +14,12 @@ WindowClass CreateWindowClass(const LPCSTR windowClassName, const WindowsProcedu
 	return windowClass;
 }
 
-WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPSTR windowTitle) {
+WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPCSTR windowTitle, const Resolution* windowSize) {
 
 	return CreateWindowExA(0,
 		windowClass, windowTitle,
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		windowSize->width, windowSize->height,
 		NULL, NULL, instanceHandle, NULL);
 }
