@@ -8,5 +8,5 @@
 #define Message MSG
 #define WindowsProcedure WNDPROC
 
-WindowClass CreateWindowClass(const char* windowTitle, const WindowsProcedure windowProcedure);
+WindowClass CreateWindowClass(const LPCSTR windowTitle, const WindowsProcedure windowProcedure);
 WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPSTR windowTitle);

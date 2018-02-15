@@ -18,12 +18,12 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 		case WM_PAINT: {
 
 			PAINTSTRUCT paint;
-			//DeviceContext deviceContext = BeginPaint(window, &paint);
+			DeviceContext deviceContext = BeginPaint(window, &paint);
 			RECT rect;
 			GetClientRect(window, &rect);
 			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
 			DrawTextA(deviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
-			//EndPaint(window, &paint);
+			EndPaint(window, &paint);
 
 		} return 0;
 
@@ -37,16 +37,18 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 int WINAPI WinMain(const InstanceHandle instance,
 		const InstanceHandle previous,
 		const LPSTR arguments,
-		const int code) {
+		const int32 code) {
 
 	// Window and engine init
 	instanceHandle = instance;
-	WindowClass windowClass = CreateWindowClass(gameName, MainWindowProcecure);
+	WindowClass windowClass = CreateWindowClass(gameNameClass, MainWindowProcecure);
 
 	if (RegisterClassA(&windowClass)) {
 		WindowHandle gameWindow = OpenNewWindow(gameNameClass, (LPSTR)gameName);
 
 		deviceContext = GetDC(gameWindow);
+		GLInit();
+
 		LogConsole("Engine Initialized!\r\n");
 		//LogMessageBox("Engine initalized!");
 
@@ -61,7 +63,7 @@ int WINAPI WinMain(const InstanceHandle instance,
 				DispatchMessage(&message);
 			}
 
-			//Heartbeat();
+			Heartbeat();
 			Update();
 
 			while (WaitForVSync())

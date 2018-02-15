@@ -2,13 +2,13 @@
 
 #include "main.h"
 
-WindowClass CreateWindowClass(const char* windowTitle, const WindowsProcedure windowProcedure) {
+WindowClass CreateWindowClass(const LPCSTR windowClassName, const WindowsProcedure windowProcedure) {
 
 	WindowClass windowClass = {};
 	windowClass.hInstance = instanceHandle;
 	windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	windowClass.lpfnWndProc = windowProcedure;
-	windowClass.lpszClassName = (LPCSTR)windowTitle;
+	windowClass.lpszClassName = windowClassName;
 
 	return windowClass;
 }

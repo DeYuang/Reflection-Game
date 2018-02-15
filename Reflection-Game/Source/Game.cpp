@@ -1,7 +1,9 @@
 #include "main.h"
 #include "mathbindings.h"
+#include "game.h"
+#include "logging.h"
 
-static enum BeatMode beatMode = (BeatMode)3;
+static enum BeatMode beatMode = BeatMode::tripleBeat;
 
 void SingleHeartbeat( void ) {
 
@@ -12,9 +14,9 @@ void SingleHeartbeat( void ) {
 
 void Heartbeat ( void ) {
 
-	uint8 heartbeats = 3;// (uint8)beatMode;
+	uint8 heartbeats = (uint8)beatMode;
 	while (heartbeats --> 0)
-		Heartbeat();
+		SingleHeartbeat();
 }
 
 void Update( void ) {
