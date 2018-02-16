@@ -10,18 +10,18 @@ void SingleHeartbeat( void ) {
 	// TODO: HB Delta Time
 }
 
-void Heartbeat ( void ) {
-
-	uint8 heartbeats = (uint8)beatMode;
-	while (heartbeats --> 0)
-		SingleHeartbeat();
-}
-
-void Update( void ) {
+void Update(void) {
 
 	frameCount++;
 	// TODO: Poll keyboard
 	// TODO: Update Delta Time
 	//LARGE_INTEGER LastCounter;
 	//QueryPerformanceCounter(&LastCounter);
+}
+
+void Heartbeat(void) {
+
+	uint8 heartbeats = (uint8)beatMode;
+	while (heartbeats--> 0)
+		SingleHeartbeat();
 }

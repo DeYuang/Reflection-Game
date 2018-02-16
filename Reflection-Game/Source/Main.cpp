@@ -1,3 +1,6 @@
+#define WIN32_LEAN_AND_MEAN
+#define WIN32_EXTRA_LEAN
+
 #include <windows.h>
 
 #include "win32.h"
@@ -11,22 +14,20 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 
 	switch (message) {
 
-	case WM_QUIT: case WM_CLOSE: case WM_DESTROY: {
+		case WM_QUIT: case WM_CLOSE: case WM_DESTROY: {
 
 			gameIsRunning = false;
 		} return 0;
 
 		case WM_PAINT: {
 
-			/*PAINTSTRUCT paint;
-			DeviceContext deviceContext = BeginPaint(window, &paint);
-
 			RECT rect;
 			GetClientRect(window, &rect);
-
+			PAINTSTRUCT paint;
+			//DeviceContext deviceContext = BeginPaint(window, &paint);			
 			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
 			DrawTextA(deviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
-			EndPaint(window, &paint);*/
+			EndPaint(window, &paint);
 
 			GLUpdate();
 		}
@@ -60,7 +61,6 @@ int WINAPI WinMain(const InstanceHandle instance,
 				if (message.message == WM_QUIT || message.message == WM_CLOSE || message.message == WM_DESTROY)
 					return 0;
 
-				TranslateMessage(&message);
 				DispatchMessage(&message);
 			}
 

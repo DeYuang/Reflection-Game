@@ -4,6 +4,7 @@
 #define GLreal GLfloat
 #define RenderingContext HGLRC
 #define PixelFormatDescriptor PIXELFORMATDESCRIPTOR
+#define DisplayEnvironmentMode DEVMODE
 
 const enum BufferMode : uint8 {
 	unbuffered = 0, doubleBuffering, trippleBuffering
