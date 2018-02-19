@@ -11,3 +11,4 @@
 
 WindowClass CreateWindowClass(const LPCSTR windowTitle, const WindowsProcedure windowProcedure);
 WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPCSTR windowTitle, const Resolution* windowSize);
+void _fastcall SwitchToFullscreen();

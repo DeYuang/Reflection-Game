@@ -3,14 +3,14 @@
 #include "game.h"
 #include "logging.h"
 
-void SingleHeartbeat( void ) {
+void _fastcall SingleHeartbeat( void ) {
 
-	cpuFrameCount++;
+	heartbeatCount++;
 	// TODO: Poll keyboard
 	// TODO: HB Delta Time
 }
 
-void Update(void) {
+void _fastcall Update(void) {
 
 	frameCount++;
 	// TODO: Poll keyboard
@@ -19,7 +19,7 @@ void Update(void) {
 	//QueryPerformanceCounter(&LastCounter);
 }
 
-void Heartbeat(void) {
+void _fastcall Heartbeat(void) {
 
 	uint8 heartbeats = (uint8)beatMode;
 	while (heartbeats--> 0)

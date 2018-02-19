@@ -9,6 +9,6 @@ const enum BeatMode : uint8 {
 
 static enum BeatMode beatMode = BeatMode::tripleBeat;
 
-void SingleHeartbeat();
-void Heartbeat();
-void Update();
+void _fastcall SingleHeartbeat();
+void _fastcall Heartbeat();
+void _fastcall Update();

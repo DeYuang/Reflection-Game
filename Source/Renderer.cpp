@@ -4,9 +4,10 @@
 #include <GL/glu.h>
 
 #include "win32_main.h"
+#include "win32_window.h"
 #include "renderer.h"
 
-void GLInit( void ) {
+void _fastcall GLInit( void ) {
 
 	PixelFormatDescriptor pixelFormatDescriptor = {};
 
@@ -28,34 +29,21 @@ void GLInit( void ) {
 	renderingContext = wglCreateContext(deviceContext);	
 	wglMakeCurrent(deviceContext, renderingContext);
 
-	if (fullscreen) {
-		DisplayEnvironmentMode displayEnvironment = {};
-		displayEnvironment.dmSize = sizeof(DisplayEnvironmentMode);
-		displayEnvironment.dmBitsPerPel = 32;
-		displayEnvironment.dmPelsHeight = screenResolution.height;
-		displayEnvironment.dmPelsWidth = screenResolution.width;
-		displayEnvironment.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
-		LONG value = ChangeDisplaySettings(&displayEnvironment, CDS_FULLSCREEN);
+	if (fullscreen)
+		SwitchToFullscreen();
 
-		ShowCursor(false);
-	}
-
-	glViewport(0, 0, screenResolution.width, screenResolution.height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(52.0f, screenResolution.width/screenResolution.height, 1.0f, 1000.0f);
+	GLSetupViewport(screenResolution, 90.0f, 1.0f, 500.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-	
 }
 
-void GLUpdate( void ) {
+void _fastcall GLUpdate( void ) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 255.0, 0.0);
 
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(ModelView);
 	glLoadIdentity();
 
 	glTranslatef(0.0f, 0.0f, -5.0f);
@@ -72,4 +60,14 @@ void GLUpdate( void ) {
 
 	if (bufferMode == BufferMode::doubleBuffering)
 		SwapBuffers(deviceContext);
+}
+
+void _fastcall GLSetupViewport(const Resolution resolution, const float fieldOfView, const float nearClip, const float farClip) {
+
+	// ROBUSTNESS: do some checks while in debug
+
+	glViewport(0, 0, resolution.width, resolution.height);
+	glMatrixMode(Projection);
+	glLoadIdentity();
+	gluPerspective(fieldOfView, (GLreal64)resolution.width / (GLreal64)resolution.height, nearClip, farClip);
 }

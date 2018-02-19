@@ -1,7 +1,11 @@
 #pragma once
 #include "mathbindings.h"
 
+#define Projection GL_PROJECTION
+#define ModelView GL_MODELVIEW
+
 #define GLreal GLfloat
+#define GLreal64 GLdouble
 #define RenderingContext HGLRC
 #define PixelFormatDescriptor PIXELFORMATDESCRIPTOR
 #define DisplayEnvironmentMode DEVMODE
@@ -12,8 +16,8 @@ const enum BufferMode : uint8 {
 
 typedef struct Resolution {
 
-	int16 width;
-	int16 height;
+	uint16 width;
+	uint16 height;
 } Resolution;
 
 static RenderingContext renderingContext;
@@ -31,5 +35,6 @@ inline bool WaitForVSync( void ) {
 	return false;
 }
 
-void GLInit();
-void GLUpdate();
+void _fastcall GLInit();
+void _fastcall GLUpdate();
+void _fastcall GLSetupViewport(const Resolution resolution, const float fieldOfView, const float nearClip, const float farClip);

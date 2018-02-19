@@ -10,5 +10,5 @@ static bool gameIsRunning = true;
 static DeviceContext deviceContext;
 static InstanceHandle instanceHandle;
 
-static int cpuFrameCount;
+static int heartbeatCount;
 static int frameCount;

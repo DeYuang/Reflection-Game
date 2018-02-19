@@ -28,3 +28,16 @@ WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPCSTR windowTitle, c
 		windowSize->width, windowSize->height,
 		NULL, NULL, instanceHandle, NULL);
 }
+
+ void _fastcall SwitchToFullscreen( void ) {
+
+	 DisplayEnvironmentMode displayEnvironment = {};
+	 displayEnvironment.dmSize = sizeof(DisplayEnvironmentMode);
+	 displayEnvironment.dmBitsPerPel = 32;
+	 displayEnvironment.dmPelsHeight = screenResolution.height;
+	 displayEnvironment.dmPelsWidth = screenResolution.width;
+	 displayEnvironment.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
+
+	 ShowCursor(false);
+	 ChangeDisplaySettings(&displayEnvironment, CDS_FULLSCREEN);
+}

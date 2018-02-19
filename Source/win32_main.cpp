@@ -19,6 +19,17 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 			gameIsRunning = false;
 		} return 0;
 
+		case WM_SIZE: case WM_SIZING: {
+
+			uint16 sizeX = (uint16)longParameter;
+			uint16 sizeY = *(uint16*)(&longParameter-1);
+
+			screenResolution = { sizeX, sizeY };
+
+			GLSetupViewport(screenResolution, 90.0f, 1.0f, 500.0f);
+			GLUpdate();
+		} return 0;
+
 		case WM_PAINT: {
 
 			RECT rect;
