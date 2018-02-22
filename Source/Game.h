@@ -1,5 +1,6 @@
 #pragma once
 #include "mathbindings.h"
+#include "win32_timer.h"
 #include "win32_input.h"
 
 const enum BeatMode : uint8 {
@@ -10,9 +11,13 @@ const enum BeatMode : uint8 {
 
 static enum BeatMode beatMode = BeatMode::tripleBeat;
 
-InputState heartbeatInputState;
-InputState updateInputState;
+static InputState *heartbeatInputState;
+static InputState *updateInputState;
 
-void SingleHeartbeat();
-void Heartbeat();
+static LARGE_INTEGER *heartbeatTimeStamp;
+static LARGE_INTEGER *updateTimeStamp;
+
 void Update();
+void SingleHeartbeat();
+void InitEngine();
+void Heartbeat();

@@ -10,7 +10,7 @@ WindowClass CreateWindowClass(const LPCSTR windowClassName, const WindowsProcedu
 	windowClass.lpszClassName = windowClassName;
 	windowClass.lpfnWndProc = windowProcedure;
 	windowClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	windowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
+	//windowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
 
 	return windowClass;
 }

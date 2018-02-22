@@ -32,14 +32,14 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 
 		case WM_PAINT: {
 
-			RECT rect;
-			GetClientRect(window, &rect);
+			Rectangle *clientRectangle = {};
+			GetClientRect(window, clientRectangle);
 
-			PAINTSTRUCT paint;
-			DeviceContext paintDeviceContext = BeginPaint(window, &paint);			
-			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
-			DrawTextA(paintDeviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
-			EndPaint(window, &paint);
+			PaintStruct *paintStruct = {};
+			DeviceContext paintDeviceContext = BeginPaint(window, paintStruct);
+			const uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
+			DrawTextA(paintDeviceContext, (LPCSTR)"Hello World!", -1, clientRectangle, flags);
+			EndPaint(window, paintStruct);
 
 			GLUpdate();
 		}
@@ -62,8 +62,9 @@ int WINAPI WinMain(const InstanceHandle instance,
 		WindowHandle gameWindow = OpenNewWindow(gameNameClass, (LPCSTR)gameName, &screenResolution);
 
 		deviceContext = GetDC(gameWindow);
-		GLInit();
 
+		InitEngine();
+		GLInit();
 		LogConsole("Engine Initialized!\r\n");
 
 		// Message que and game loop

@@ -2,12 +2,7 @@
 #include <windows.h>
 #include "renderer.h"
 
-#define InstanceHandle HINSTANCE
-#define WindowClass WNDCLASSA
-#define WindowHandle HWND
-#define DeviceContext HDC
-#define Message MSG
-#define WindowsProcedure WNDPROC
+#include "win32.h"
 
 WindowClass CreateWindowClass(const LPCSTR windowTitle, const WindowsProcedure windowProcedure);
 WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPCSTR windowTitle, const Resolution* windowSize);

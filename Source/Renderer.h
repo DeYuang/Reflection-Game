@@ -1,10 +1,9 @@
 #pragma once
-#include "mathbindings.h"
-#include "gl/gl.h"
+#include <gl/gl.h>
 
-#define RenderingContext HGLRC
-#define PixelFormatDescriptor PIXELFORMATDESCRIPTOR
-#define DisplayEnvironmentMode DEVMODE
+#include "mathbindings.h"
+#include "win32.h"
+
 #define Projection GL_PROJECTION
 #define ModelView GL_MODELVIEW
 
