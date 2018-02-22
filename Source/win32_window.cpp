@@ -10,7 +10,7 @@ WindowClass CreateWindowClass(const LPCSTR windowClassName, const WindowsProcedu
 	windowClass.lpszClassName = windowClassName;
 	windowClass.lpfnWndProc = windowProcedure;
 	windowClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	windowClass.hCursor = LoadCursorA(NULL, MAKEINTRESOURCEA(IDC_ARROW));
+	windowClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
 
 	return windowClass;
 }
@@ -29,7 +29,32 @@ WindowHandle OpenNewWindow(const LPCSTR windowClass, const LPCSTR windowTitle, c
 		NULL, NULL, instanceHandle, NULL);
 }
 
- void _fastcall SwitchToFullscreen( void ) {
+PixelFormatDescriptor* CreatePixelFormatDescriptor(const bool doubleBuffering) {
+
+	PixelFormatDescriptor pixelFormatDescriptor = {};
+
+	DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+	if (doubleBuffering)
+		flags = flags | PFD_DOUBLEBUFFER;
+
+	pixelFormatDescriptor.nSize = sizeof(PixelFormatDescriptor);
+	pixelFormatDescriptor.nVersion = 1;
+	pixelFormatDescriptor.dwFlags = flags;
+	pixelFormatDescriptor.iPixelType = PFD_TYPE_RGBA;
+	pixelFormatDescriptor.cColorBits = 32;
+	pixelFormatDescriptor.cDepthBits = 32;
+	pixelFormatDescriptor.iLayerType = PFD_MAIN_PLANE;
+
+	return &pixelFormatDescriptor;
+}
+
+void CreateRenderingContext( void ) {
+
+	renderingContext = wglCreateContext(deviceContext);
+	wglMakeCurrent(deviceContext, renderingContext);
+}
+
+ void SwitchToFullscreen( void ) {
 
 	 DisplayEnvironmentMode displayEnvironment = {};
 	 displayEnvironment.dmSize = sizeof(DisplayEnvironmentMode);

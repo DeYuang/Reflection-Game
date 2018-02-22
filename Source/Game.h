@@ -1,5 +1,6 @@
 #pragma once
 #include "mathbindings.h"
+#include "win32_input.h"
 
 const enum BeatMode : uint8 {
 	undefined = 0, singleBeat, doubleBeat, tripleBeat, quadrupleBeat,
@@ -9,6 +10,9 @@ const enum BeatMode : uint8 {
 
 static enum BeatMode beatMode = BeatMode::tripleBeat;
 
-void _fastcall SingleHeartbeat();
-void _fastcall Heartbeat();
-void _fastcall Update();
+InputState heartbeatInputState;
+InputState updateInputState;
+
+void SingleHeartbeat();
+void Heartbeat();
+void Update();

@@ -7,67 +7,54 @@
 #include "win32_window.h"
 #include "renderer.h"
 
-void _fastcall GLInit( void ) {
+void GLInit( void ) {
 
-	PixelFormatDescriptor pixelFormatDescriptor = {};
+	PixelFormatDescriptor* pixelFormatDescriptor = CreatePixelFormatDescriptor(DoubleBufferingEnabled());
 
-	DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
-	if (bufferMode == BufferMode::doubleBuffering)
-		flags = flags | PFD_DOUBLEBUFFER;
+	int32 pixelFormat = ChoosePixelFormat(deviceContext, pixelFormatDescriptor);
+	SetPixelFormat(deviceContext, pixelFormat, pixelFormatDescriptor);
 
-	pixelFormatDescriptor.nSize = sizeof(PixelFormatDescriptor);
-	pixelFormatDescriptor.nVersion = 1;
-	pixelFormatDescriptor.dwFlags = flags;
-	pixelFormatDescriptor.iPixelType = PFD_TYPE_RGBA;
-	pixelFormatDescriptor.cColorBits = 32;
-	pixelFormatDescriptor.cDepthBits = 32;
-	pixelFormatDescriptor.iLayerType = PFD_MAIN_PLANE;
-
-	int32 pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDescriptor);
-	SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDescriptor);
-
-	renderingContext = wglCreateContext(deviceContext);	
-	wglMakeCurrent(deviceContext, renderingContext);
+	CreateRenderingContext();
+	GLSetupViewport(screenResolution, fieldOfView, nearClip, farClip);
 
 	if (fullscreen)
 		SwitchToFullscreen();
-
-	GLSetupViewport(screenResolution, 90.0f, 1.0f, 500.0f);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
 }
 
-void _fastcall GLUpdate( void ) {
+void GLUpdate( void ) {
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 255.0, 0.0);
+	ClearScreen();
+
+	GlTest();
+
+	if (DoubleBufferingEnabled())
+		SwapBuffers(deviceContext);
+}
+
+void GLSetupViewport(const Resolution resolution, const real fieldOfView, const real nearClip, const real farClip) {
+
+	// ROBUSTNESS: do some checks while in debug
+
+	glMatrixMode(Projection);
+	glLoadIdentity();
+	gluPerspective(fieldOfView, (real64)resolution.width / (real64)resolution.height, nearClip, farClip);
+
+	glViewport(0, 0, resolution.width, resolution.height);
+	ClearScreen();
+}
+
+void GlTest( void ) {
 
 	glMatrixMode(ModelView);
 	glLoadIdentity();
-
 	glTranslatef(0.0f, 0.0f, -5.0f);
 
-	glColor3f(0.7f, 1.0f, 0.3f);
-
 	glBegin(GL_TRIANGLES);
+	glColor3f(0.7f, 1.0f, 0.3f);
 	glVertex3f(1.0f, -1.0f, 0.0f);
 	glVertex3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 1.0f);
 	glEnd();
 
 	glFlush();
-
-	if (bufferMode == BufferMode::doubleBuffering)
-		SwapBuffers(deviceContext);
-}
-
-void _fastcall GLSetupViewport(const Resolution resolution, const float fieldOfView, const float nearClip, const float farClip) {
-
-	// ROBUSTNESS: do some checks while in debug
-
-	glViewport(0, 0, resolution.width, resolution.height);
-	glMatrixMode(Projection);
-	glLoadIdentity();
-	gluPerspective(fieldOfView, (GLreal64)resolution.width / (GLreal64)resolution.height, nearClip, farClip);
 }

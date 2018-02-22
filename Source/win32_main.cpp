@@ -21,12 +21,12 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 
 		case WM_SIZE: case WM_SIZING: {
 
-			uint16 sizeX = (uint16)longParameter;
-			uint16 sizeY = *(uint16*)(&longParameter-1);
+			//uint16 sizeX = (uint16)longParameter;
+			//uint16 sizeY = *(uint16*)(&longParameter-1);
 
-			screenResolution = { sizeX, sizeY };
+			//screenResolution = { sizeX, sizeY };
 
-			GLSetupViewport(screenResolution, 90.0f, 1.0f, 500.0f);
+			GLSetupViewport(screenResolution, fieldOfView, nearClip, farClip);
 			GLUpdate();
 		} return 0;
 
@@ -34,10 +34,11 @@ LRESULT CALLBACK MainWindowProcecure(WindowHandle window, uint32 message,
 
 			RECT rect;
 			GetClientRect(window, &rect);
+
 			PAINTSTRUCT paint;
-			//DeviceContext deviceContext = BeginPaint(window, &paint);			
+			DeviceContext paintDeviceContext = BeginPaint(window, &paint);			
 			uint32 flags = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
-			DrawTextA(deviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
+			DrawTextA(paintDeviceContext, (LPCSTR)"Hello World!", -1, &rect, flags);
 			EndPaint(window, &paint);
 
 			GLUpdate();
@@ -84,6 +85,6 @@ int WINAPI WinMain(const InstanceHandle instance,
 			GLUpdate();
 		}
 	}
-
+	
 	return 0;
 }

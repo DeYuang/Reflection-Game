@@ -1,25 +1,25 @@
 #include "win32_main.h"
+#include "win32_input.h"
 #include "mathbindings.h"
 #include "game.h"
-#include "logging.h"
 
-void _fastcall SingleHeartbeat( void ) {
+void SingleHeartbeat( void ) {
 
 	heartbeatCount++;
-	// TODO: Poll keyboard
+	heartbeatInputState = *UpdateAllInput(&heartbeatInputState);
 	// TODO: HB Delta Time
 }
 
-void _fastcall Update(void) {
+void Update(void) {
 
 	frameCount++;
-	// TODO: Poll keyboard
+	updateInputState = *UpdateAllInput(&updateInputState);
 	// TODO: Update Delta Time
 	//LARGE_INTEGER LastCounter;
 	//QueryPerformanceCounter(&LastCounter);
 }
 
-void _fastcall Heartbeat(void) {
+void Heartbeat(void) {
 
 	uint8 heartbeats = (uint8)beatMode;
 	while (heartbeats--> 0)

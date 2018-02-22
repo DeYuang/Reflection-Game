@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\!GIT\Reflection-Game\Source\gl\freeglut\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\!GIT\Reflection-Game\Source\gl\freeglut\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files\Microsoft SDKs\Windows\v6.0\Include;D:\!GIT\Reflection-Game\Source\gl\freeglut\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x64;D:\Program Files\Microsoft SDKs\Windows\v6.0\Lib\x86;D:\!GIT\Reflection-Game\Source\gl\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,6 +79,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Logging.cpp" />
+    <ClCompile Include="Source\win32_input.cpp" />
     <ClCompile Include="Source\win32_main.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\win32_window.cpp" />
@@ -127,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Logging.h" />
+    <ClInclude Include="Source\win32_input.h" />
     <ClInclude Include="Source\win32_main.h" />
     <ClInclude Include="Source\MathBindings.h" />
     <ClInclude Include="Source\Renderer.h" />
