@@ -1,6 +1,7 @@
-#include "nds_main.h"
-#include "nds_timer.h"
 #include "mathbindings.h"
+#include "main.h"
+#include "timer.h"
+#include "input.h"
 #include "game.h"
 
 void Update( void ) {
